@@ -10,7 +10,6 @@ import UserItem from "./user-item";
 export default function Navigation() {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
-
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
@@ -93,18 +92,17 @@ export default function Navigation() {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[9999]",
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "w-0",
+          isMobile && "w-0"
         )}
       >
         <div
           onClick={collapse}
           role="button"
           className={cn(
-            "w-6 h-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600" +
-              "absolute top-3 right-2 opacity-0 group/hover/sidebar:opacity-100 transition",
-            isMobile && "opacity-100",
+            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            isMobile && "opacity-100"
           )}
         >
           <ChevronsLeft className="h-6 w-6" />
@@ -116,7 +114,7 @@ export default function Navigation() {
           <p>Documents</p>
         </div>
         <div
-          onMouseDown={() => handleMouseDown}
+          onMouseDown={handleMouseDown}
           onClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
         />
