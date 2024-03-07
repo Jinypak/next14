@@ -1,7 +1,13 @@
 "use client";
 
 import React, { ElementRef, useEffect, useRef, useState } from "react";
-import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react";
+import {
+  ChevronsLeft,
+  MenuIcon,
+  PlusCircle,
+  Search,
+  Settings,
+} from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -10,11 +16,12 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Item from "./item";
 import { toast } from "sonner";
+import DocumentList from "./document-list";
 
 export default function Navigation() {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const documents = useQuery(api.documents.get);
+  // const documents = useQuery(api.documents.getSidebar);
   const create = useMutation(api.documents.create);
 
   const isResizingRef = useRef(false);
@@ -116,29 +123,27 @@ export default function Navigation() {
       >
         <div
           onClick={collapse}
-          role='button'
+          role="button"
           className={cn(
             "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
-          <ChevronsLeft className='h-6 w-6' />
+          <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
           <UserItem />
-          <Item onClick={()=>{}} label='Search' icon={Search} />
-          <Item onClick={()=>{}} label='Settings' icon={Settings} />
-          <Item onClick={handleCreate} label='New Page' icon={PlusCircle} />
+          <Item onClick={() => {}} label="Search" icon={Search} />
+          <Item onClick={() => {}} label="Settings" icon={Settings} />
+          <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
         </div>
-        <div className='mt-4'>
-          {documents?.map((documents) => (
-            <p key={documents._id}>{documents.title}</p>
-          ))}
+        <div className="mt-4">
+          <DocumentList />
         </div>
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
-          className='opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0'
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
         />
       </aside>
       <div
@@ -149,12 +154,12 @@ export default function Navigation() {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className='bg-transparent px-3 py-2 w-full'>
+        <nav className="bg-transparent px-3 py-2 w-full">
           {isCollapsed && (
             <MenuIcon
-              role='button'
+              role="button"
               onClick={resetWidth}
-              className='h-6 w-6 text-muted-foreground'
+              className="h-6 w-6 text-muted-foreground"
             />
           )}
         </nav>
